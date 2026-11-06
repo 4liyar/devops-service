@@ -17,11 +17,16 @@ def test_home_page(client):
     assert b"v1.0.0" in response.data
 
 
+
 def test_health_endpoint(client):
     response = client.get("/health")
+
     assert response.status_code == 200
+    assert response.is_json
+    assert response.json["service"] == "DevOps Service"
     assert response.json["status"] == "healthy"
     assert response.json["version"] == "v1.0.0"
+
 
 
 def test_version_endpoint(client):

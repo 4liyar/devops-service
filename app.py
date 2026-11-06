@@ -30,9 +30,15 @@ def home():
     </html>
     """, version=APP_VERSION)
 
+
 @app.route("/health")
 def health():
-    return jsonify(status="healthy", version=APP_VERSION), 200
+    return jsonify(
+        service="DevOps Service",
+        status="healthy",
+        version=APP_VERSION
+    ), 200
+
 
 @app.route("/version")
 def version():
