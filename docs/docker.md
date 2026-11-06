@@ -81,15 +81,55 @@ sudo docker logs -f devops-service-container
 
 Press Ctrl+C to stop following logs.
 
+
 ## 8. Health Check
+
+The application provides a `/health` endpoint to check
+whether the Flask web service is responding successfully.
+
+### Test the Health Endpoint
+
+Run:
 
 ```bash
 curl -i http://127.0.0.1:8080/health
 ```
 
-Expected HTTP response: 200 OK
+Expected HTTP status:
 
-Expected JSON status: healthy
+```text
+HTTP/1.1 200 OK
+```
+
+Expected JSON response:
+
+```json
+{
+  "service": "DevOps Service",
+  "status": "healthy",
+  "version": "v1.0.0"
+}
+```
+
+### Response Fields
+
+| Field | Description |
+|---|---|
+| service | Identifies the application |
+| status | Indicates the application health |
+| version | Displays the application version |
+
+### Health Check Purpose
+
+The health endpoint helps verify that the application
+is running and responding to HTTP requests.
+
+The endpoint returns HTTP 200 when the application
+is healthy.
+
+This basic health check does not verify external
+services such as databases.
+
 
 ## 9. Non-Root Security
 
