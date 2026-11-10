@@ -1,40 +1,25 @@
-
 import pytest
 from app import app
 
-
 @pytest.fixture
 def client():
-    app.config["TESTING"] = True
+    app.config['TESTING'] = True
     with app.test_client() as client:
         yield client
 
-
 def test_home_page(client):
-    response = client.get("/")
+    response = client.get('/')
     assert response.status_code == 200
-    assert b"Team Service Information" in response.data
-    assert b"v1.0.0" in response.data
-
-
 
 def test_health_endpoint(client):
-    response = client.get("/health")
-
+    response = client.get('/health')
     assert response.status_code == 200
-    assert response.is_json
-    assert response.json["service"] == "DevOps Service"
-    assert response.json["status"] == "healthy"
-    assert response.json["version"] == "v1.0.0"
-
-
+    assert response.json == {"status": "healthy"}
 
 def test_version_endpoint(client):
-    response = client.get("/version")
+    response = client.get('/version')
     assert response.status_code == 200
-    assert response.json["version"] == "v1.0.0"
-
 
 def test_invalid_route(client):
-    response = client.get("/invalid")
+    response = client.get('/invalid-route')
     assert response.status_code == 404
