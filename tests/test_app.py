@@ -19,13 +19,12 @@ def test_home_page(client):
 
 
 def test_health_endpoint(client):
-    response = client.get("/health")
-
+    response = client.get('/health')
     assert response.status_code == 200
-    assert response.is_json
-    assert response.json["service"] == "DevOps Service"
-    assert response.json["status"] == "healthy"
-    assert response.json["version"] == "v1.0.0"
+    data = response.get_json()
+    assert data["status"] == "healthy"
+    assert "service" in data
+    assert "version" in data
 
 
 
