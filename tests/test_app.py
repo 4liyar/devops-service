@@ -14,13 +14,17 @@ def test_home_page(client):
     assert response.status_code == 200
 
 
+
 def test_health_endpoint(client):
     response = client.get("/health")
+
     assert response.status_code == 200
-    data = response.get_json()
-    assert data["status"] == "healthy"
-    assert "service" in data
-    assert "version" in data
+    assert response.is_json
+    assert response.json["status"] == "healthy"
+    assert response.json["service"] == "devops-service"
+    assert response.json["version"] == "v1.1.0"
+    assert isinstance(response.json["uptime_seconds"], int)
+    assert response.json["uptime_seconds"] >= 0
 
 
 def test_version_endpoint(client):
