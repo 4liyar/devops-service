@@ -6,14 +6,14 @@
 - [x] Ensure sufficient privileges/permissions to execute Docker commands on the host machine.
 
 ## 2. Artifact Identification
-- **Service Name:** devops-service
-- **Release Version:** v1.0.0/v1.1.0
-- **Git Commit SHA:** (e.g., retrieve via `git rev-parse HEAD`)
-- **Docker Image Tag:** `devops-service:v1.0.0/1.1.0`
+- **Service Name:** `devops-service`
+- **Release Versions:** `v1.0.0` (Commit: `a060527`) and `v1.1.0` (Commit: `34d3ffa`)
+- **Docker Image Tags:** `devops-service:v1.0.0` and `devops-service:v1.1.0`
+- **CI Artifact Retention:** Retained automatically by GitHub Actions upon successful CI completion.
 
 ## 3. Deployment Steps
-1. Build the Docker image tagged with the specific release version:
-   ```bash
+1. Build the Docker images tagged with the specific release versions:
+   ```powershell
    docker build -t devops-service:v1.0.0 .
    docker build -t devops-service:v1.1.0 .
 
@@ -35,7 +35,13 @@
    ```bash
    docker run -d -p 5001:5000 --name service-v1-1 -e APP_VERSION=v1.1.0 devops-service:v1.1.0
 
-
-7. Check
+## 4. Rollback Steps
+If v1.1.0 fails health checks or encounters an error after deployment:
+1. Stop and remove the faulty v1.1.0 container:
    ```bash
-   curl.exe http://localhost:5001/health 
+   docker rm -f service-v1-1
+2. Restore and verify the previous known working release (v1.0.0):
+   ```bash
+   docker run -d -p 5000:5000 --name service-v1 -e APP_VERSION=v1.0.0 devops
+   service:v1.0.0
+   curl.exe http://localhost:5000/health
