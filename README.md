@@ -21,9 +21,8 @@ The application provides a service information page, a health check endpoint, an
 - Python 3
 - Flask
 - Git and GitHub
-- Docker (planned)
-- CI/CD pipeline (planned)
-
+- Docker (containerization)
+- GitHub Actions (automated CI pipeline)
 ## Installation
 
 Clone the repository and open the project directory.
@@ -81,3 +80,32 @@ The repository will contain application source code, tests, a Dockerfile, depend
 ## Author
 
 Individual DevOps Project
+
+## Continuous Integration (CI)
+
+This project uses GitHub Actions for automated testing.
+
+The CI pipeline runs when a pull request is opened
+against the main branch or when changes are pushed
+to main.
+
+The pipeline performs the following checks:
+
+1. Downloads the project source code.
+2. Sets up the Python environment.
+3. Installs the required dependencies.
+4. Runs automated tests using pytest.
+5. Checks Python syntax.
+
+The CI pipeline helps identify errors before
+new changes are merged into the main branch.
+
+### How to Check CI Results
+
+1. Open the GitHub repository.
+2. Click the Actions tab.
+3. Select the latest workflow run.
+4. Check whether the workflow succeeded or failed.
+5. If it failed, open the job logs to investigate.
+
+
